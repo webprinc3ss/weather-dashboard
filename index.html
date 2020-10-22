@@ -7,40 +7,38 @@
     <title>Document</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
     <!-- Bootstrap core CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 
 <body>
     <div class=".container-fluid">
         <div class="row row text-light bg-dark w-100">
-            <div class=" mx-auto px-md-5 ">
+            <div class=" mx-auto px-md-5 text-white">
                 <h1>Weather Dashboard</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-2"></div>
+            <div class="col-1"></div>
             <div class="col-3">
                 <div class="card">
                     <div class="card-body bg-light">
-                        <!-- Bootstrap -->
-
                         <form class="form-inline active-primary-2">
+                            <h4>Search for a City:</h4>
                             <input class="form-control form-control-lg mr-3 w-75" type="text" placeholder="Search"
                                 aria-label="Search">
                             <button type="button" class="btn btn-primary px-3"><i class="fas fa-search"
                                     aria-hidden="true"></i></button>
                         </form>
-
-
                     </div>
-
                     <ul class="list-group">
                         <li class="list-group-item"><a href="#">Austin</a></li>
                         <li class="list-group-item"><a href="#">Denver</a></li>
@@ -50,10 +48,100 @@
                     </ul>
                 </div>
             </div>
+            <div class="col-6 w-100">
+                <div class="row">
+                    <div class="col">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card w-100">
+                            <div class="card-body">
+                                <h2><span id="#city">City</span> <span class="date">00/00/0000</span>
+                                    <i class="fas fa-cloud-sun amber-text part-sun"></i>
+                                    <i class="fas fa-sun amber-text sun"></i>
+                                    <i class="fas fa-cloud-rain grey-text rain"></i>
+                                    <i class="fas fa-cloud-showers-heavy grey-text heavyshowers"></i>
+                                    <i class="fas fa-cloud grey-text cloudy"></i></span>
+                                </h2>
+                                <p class="card-text">
+                                <p class="temp">Temperature: </p>
+                                <p class="humidity">Humidity: </p>
+                                <p class="windspeed">Wind Speed: </p>
+                                <p class="uv">UV Index: <span class="uv-favorable">10</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h2>5 Day Forecast</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card" style="width: 9rem;">
+                            <div class="card-body bg-primary text-white">
+                                <h5 class="card-title date">date</h5>
+                                <i class="fas fa-sun amber-text sun"></i>
+                                <p class="card-text text-white temp"> temp</p>
+                                <p class="card-text text-white humidy"> humidity</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card" style="width: 9rem;">
+                            <div class="card-body bg-primary text-white">
+                                <h5 class="card-title date">date</h5>
+                                <i class="fas fa-sun amber-text sun"></i>
+                                <p class="card-text text-white temp"> temp</p>
+                                <p class="card-text text-white humidy"> humidity</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card" style="width: 9rem;">
+                            <div class="card-body bg-primary text-white">
+                                <h5 class="card-title date">date</h5>
+                                <i class="fas fa-sun amber-text sun"></i>
+                                <p class="card-text text-white temp"> temp</p>
+                                <p class="card-text text-white humidy"> humidity</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card" style="width: 9rem;">
+                            <div class="card-body bg-primary text-white">
+                                <h5 class="card-title date">date</h5>
+                                <i class="fas fa-sun amber-text sun"></i>
+                                <p class="card-text text-white temp"> temp</p>
+                                <p class="card-text text-white humidy"> humidity</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card" style="width: 9rem;">
+                            <div class="card-body bg-primary text-white">
+                                <h5 class="card-title date">date</h5>
+                                <i class="fas fa-sun amber-text sun"></i>
+                                <p class="card-text text-white temp"> temp</p>
+                                <p class="card-text text-white humidy"> humidity</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-1">
+            </div>
         </div>
-        <div class="col-5">Column</div>
-        <div class="col-2"></div>
-    </div>
     </div>
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -61,8 +149,9 @@
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
