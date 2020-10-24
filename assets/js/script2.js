@@ -1,98 +1,79 @@
+console.log(apiKey)
+
 var cityFormEl = document.querySelector("#cityForm");
 var cityInputEl = document.querySelector("#city");
+var ul = document.querySelector('ul');
+var citiesArray = localStorage.getItem('cities') ? JSON.parse(localStorage.getItem('cities')) : [];
+localStorage.setItem('cities', JSON.stringify(citiesArray));
+var data = JSON.parse(localStorage.getItem('cities'));
 
+localStorage.setItem('cities', JSON.stringify(citiesArray));
+var data = JSON.parse(localStorage.getItem('cities'));
 
-
-
-// Store  data.
-function saveCitySearch(city) {
-
-    data.push({ city });
-    localStorage.setItem("cities", JSON.stringify(data));
-
-}
-
-// Do something with your data.
-function loadCities() {
-
-    data = JSON.parse(localStorage.getItem("cities")) || [];
-    let i = 0;
-    while (i < loadCities.length) {
-        console.log(i);
-        i++;
-
-        var li = document.getElementsByTagName("li")
-        li.innerHTML = data[i]
-        li.classList = "list-group-item"
-        document.getElementsByTagName("ul").appendChild(li)
+var liMaker = (text) => {
+    if (text =) {
 
     }
 
+
+    var li = document.createElement('li');
+    li.textContent = text;
+    li.classList = "list-group-item"
+    ul.insertBefore(li, ul.childNodes[0]);
+    while (ul.childNodes.length > 7) {
+        ul.removeChild(ul.lastChild)
+    }
+    li.addEventListener("click", function () {
+        console.log(text)
+        getWeather(text)
+        ul.insertBefore(li, ul.childNodes[0]);
+        while (ul.childNodes.length > 7) {
+            ul.removeChild(ul.lastChild)
+        }
+
+    })
+
 }
 
-//     data.forEach((element) => {
-//         var newli = $("<li>").appendTo("<ul>")
-//         $(newli).innerHTML("cities[i])
+
+const api = {
+    key: apiKey,
+    base: "https://api.openweathermap.org/data/2.5/",
+};
+
+const api2 = {
+    key: apiKey,
+    base: "https://api.openweathermap.org/data/2.5/",
+};
+
+const api3 = {
+    key: apiKey,
+    base: "https://api.openweathermap.org/data/2.5/",
+};
 
 
-
-//     })
-// };
-
-
-
-
-
-//List searches keep to five
-//Search Code
-// var cityInput = document.getElementById("city");
-// var cityForm = document.getElementById("cityForm");
-
-// var local1 = document.getElementById("local1");
-// var local2 = document.getElementById("local2");
-// var local3 = document.getElementById("local3");
-// var local4 = document.getElementById("local4");
-// var local5 = document.getElementById("local5");
-
-// var savedLocations = ["", "", "", "", ""];
-
-// cityForm.addEventListener("submit", function (event) {
-//     for (let i = 0; i < savedLocations.length; i++) {
-//         if (savedLocations[i] == "") {
-//             savedLocations[i] = cityInput.value;
-//         } else {
-//             savedLocations[4] = savedLocations[3];
-//             savedLocations[3] = savedLocations[2];
-//             savedLocations[2] = savedLocations[1];
-//             savedLocations[1] = savedLocations[0];
-//             savedLocations[0] = cityInput.value;
-//             break;
-//         }
-//     }
-
-//     local1.innerHTML = `<a href="">${savedLocations[0]}</a>`;
-//     local2.innerHTML = `<a href="">${savedLocations[1]}</a>`;
-//     local3.innerHTML = `<a href="">${savedLocations[2]}</a>`;
-//     local4.innerHTML = `<a href="">${savedLocations[3]}</a>`;
-//     local5.innerHTML = `<a href="">${savedLocations[4]}</a>`;
-
-//     event.preventDefault();
-// });
 
 var weatherHere = function () {
     fetch(`${api.base}weather?q=Las&Vegas&units=imperial&APPID=${api.key}`)
-        .then((weather) => {
-            return weather.json();
-
-
+        .then(function (weather) {
+            // request was successful
+            if (weather.ok) {
+                return weather.json()
+                    .then(displayVegas);
+            } else {
+                alert("Error: " + weather.statusText);
+            }
         })
-        .then(displayResults);
+        .catch(function (error) {
+            alert("Unable to connect to Open Weather Map");
+        });
 }
 
-function displayResults(weather) {
+
+function displayVegas(weather) {
     console.log(weather);
     var cityName = document.querySelector("#cityName");
-    cityName.innerHTML = "Something goes here";
+    cityName.innerHTML = "Las Vegas";
 
     var date = document.querySelector(".date");
     date.innerText = moment().format('l');
@@ -112,7 +93,6 @@ function displayResults(weather) {
     var iconData = weather.weather[0].icon
     icon.src = "http://openweathermap.org/img/w/" + iconData + ".png"
 
-
     console.log(weather.coord.lon)
     var lon = weather.coord.lon
     console.log(lon)
@@ -123,15 +103,20 @@ function displayResults(weather) {
     getForecast(city)
 }
 
-
 var getWeather = function (city) {
     fetch(`${api.base}weather?q=${city}&units=imperial&APPID=${api.key}`)
-        .then((weather) => {
-            return weather.json();
-
-
+        .then(function (weather) {
+            // request was successful
+            if (weather.ok) {
+                return weather.json()
+                    .then(displayResults);
+            } else {
+                alert("Error: " + weather.statusText);
+            }
         })
-        .then(displayResults);
+        .catch(function (error) {
+            alert("Unable to connect to Open Weather Map");
+        });
 }
 
 function displayResults(weather) {
@@ -158,21 +143,35 @@ function displayResults(weather) {
     icon.src = "http://openweathermap.org/img/w/" + iconData + ".png"
 
 
-    console.log(weather.coord.lon)
+    console.log(weather.coord)
     var lon = weather.coord.lon
+    //lon = lon.trim()
     console.log(lon)
     var lat = weather.coord.lat
+    //lat = lat.trim()
     console.log(lat)
-    uvFetch(lon, lat)
-
+    uvFetch((lat), (lon))
 }
 
 var uvFetch = function (lat, lon) {
     fetch(`${api2.base}uvi?lat=${lat}&lon=${lon}&APPID=${api2.key}`)
-        .then((uvi) => {
-            return uvi.json();
+        .then(function (uvi) {
+            console.log(uvi)
+            // request was successful
+            if (uvi.ok) {
+                return uvi.json()
+                    .then(uvDisplay);
+            } else {
+                var status = document.querySelector("status")
+                status.innerHTML = uvi.statusText
+                console.log(uvi.statusText)
+                //alert("Error: " + uvi.statusText);
+            }
         })
-        .then(uvDisplay);
+        .catch(function (error) {
+            status.innerHTML = "Unable to connect to Open Weather Map"
+            //alert("Unable to connect to Open Weather Map");
+        });
 }
 
 function uvDisplay(uvi) {
@@ -194,9 +193,7 @@ function uvDisplay(uvi) {
         uvclass.classList.remove("moderate", "favorable")
     }
     var uviSpan = document.querySelector(".uv-favorable");
-    uviSpan.innerHTML = `${uvi.value}`;
-
-
+    uviSpan.innerHTML = uvi.value;
 }
 
 var getForecast = function (city) {
@@ -273,8 +270,6 @@ function displayForecast(forecast) {
     var icon5 = document.querySelector(".icon5");
     var iconData5 = forecast.list[4].weather[0].icon
     icon5.src = "http://openweathermap.org/img/w/" + iconData5 + ".png"
-
-
 }
 
 var formSubmitHandler = function (event) {
@@ -283,9 +278,18 @@ var formSubmitHandler = function (event) {
     var city = cityInputEl.value.trim();
 
     if (city) {
+        citiesArray.push(city);
+        //citiesArray.length = 10;
+
+        if (citiesArray.length > 7) {
+            citiesArray.shift();
+
+        }
+        localStorage.setItem('cities', JSON.stringify(citiesArray));
+        liMaker(city);
         getWeather(city);
         getForecast(city);
-        saveCities(city);
+
         cityInputEl.value = "";
     } else {
         alert("Please enter a city.");
@@ -294,8 +298,26 @@ var formSubmitHandler = function (event) {
 };
 
 
+data.forEach(city => {
+    liMaker(city);
+});
+
+
+
 cityFormEl.addEventListener("submit", formSubmitHandler);
 weatherHere()
+
+//Array Code
+//var citrus = fruits.slice(1, 3);
+
+//remove array item button and clear local storage
+// button.addEventListener('click', function () {
+//     localStorage.clear();
+//     while (ul.firstChild) {
+//         ul.removeChild(ul.firstChild);
+//     }
+//     itemsArray = [];
+// });
 
 
 
