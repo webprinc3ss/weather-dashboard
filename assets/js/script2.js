@@ -4,18 +4,16 @@ var cityFormEl = document.querySelector("#cityForm");
 var cityInputEl = document.querySelector("#city");
 var ul = document.querySelector('ul');
 var citiesArray = localStorage.getItem('cities') ? JSON.parse(localStorage.getItem('cities')) : [];
-localStorage.setItem('cities', JSON.stringify(citiesArray));
-var data = JSON.parse(localStorage.getItem('cities'));
 
-localStorage.setItem('cities', JSON.stringify(citiesArray));
-var data = JSON.parse(localStorage.getItem('cities'));
+
 
 var liMaker = (text) => {
-    if (text =) {
+    for (var index = ul.childNodes.length - 1; index >= 0; index--) {
+        if (text === ul.childNodes[index].textContent) {
+            ul.removeChild(ul.childNodes[index])
+        }
 
     }
-
-
     var li = document.createElement('li');
     li.textContent = text;
     li.classList = "list-group-item"
@@ -23,16 +21,21 @@ var liMaker = (text) => {
     while (ul.childNodes.length > 7) {
         ul.removeChild(ul.lastChild)
     }
+
     li.addEventListener("click", function () {
         console.log(text)
         getWeather(text)
-        ul.insertBefore(li, ul.childNodes[0]);
-        while (ul.childNodes.length > 7) {
-            ul.removeChild(ul.lastChild)
+        getForecast(text)
+        liMaker(text)
+        citiesArray = []
+
+        for (var index = 0; index < ul.childNodes.length; index++) {
+            citiesArray[index] = ul.childNodes[index].textContent
         }
-
+        citiesArray.reverse()
+        console.log(citiesArray)
+        localStorage.setItem('cities', JSON.stringify(citiesArray));
     })
-
 }
 
 
@@ -278,15 +281,17 @@ var formSubmitHandler = function (event) {
     var city = cityInputEl.value.trim();
 
     if (city) {
-        citiesArray.push(city);
-        //citiesArray.length = 10;
 
-        if (citiesArray.length > 7) {
-            citiesArray.shift();
-
-        }
-        localStorage.setItem('cities', JSON.stringify(citiesArray));
         liMaker(city);
+        citiesArray = []
+
+        for (var index = 0; index < ul.childNodes.length; index++) {
+            citiesArray[index] = ul.childNodes[index].textContent
+        }
+
+        citiesArray.reverse()
+
+        localStorage.setItem('cities', JSON.stringify(citiesArray));
         getWeather(city);
         getForecast(city);
 
@@ -297,12 +302,9 @@ var formSubmitHandler = function (event) {
     console.log(event);
 };
 
-
-data.forEach(city => {
+citiesArray.forEach(city => {
     liMaker(city);
 });
-
-
 
 cityFormEl.addEventListener("submit", formSubmitHandler);
 weatherHere()
