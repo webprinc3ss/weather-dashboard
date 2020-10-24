@@ -1,10 +1,7 @@
 var cityFormEl = document.querySelector("#cityForm");
 var cityInputEl = document.querySelector("#city");
 
-const api = {
-    key: "",
-    base: "http://api.openweathermap.org/data/2.5/",
-};
+
 
 //List searches keep to five
 //Search Code
@@ -71,30 +68,84 @@ function displayResults(weather) {
     windspeed.innerHTML = `Windspeed: ${weather.wind.speed} <span>m.p.h.</span>`;
 
     var icon = document.querySelector(".icon");
-    // weather.description = `${weather[0].description}`
-    // console.log(weather.description)
+    console.log(weather.weather[0].description)
+    console.log(weather.weather[0].icon)
+    var iconData = weather.weather[0].icon
+    icon.src = "http://openweathermap.org/img/w/" + iconData + ".png"
 
 
-    if (weather.description.includes("rain")) {
-        icon.src = "https://img.icons8.com/color/48/000000/snow.png";
-    }
-    if (`${weather.Array(1).id}`.includes("sun")) {
-        icon.src = "https://img.icons8.com/color/48/000000/sun.png";
-    }
-    if (`${weather.id}`.includes("partly cloudy")) {
-        icon.src = "https://img.icons8.com/color/48/000000/partly-cloudy-rain.png";
-    }
-    if (`${weather.id}`.includes("rain")) {
-        icon.src = "https://img.icons8.com/color/48/000000/rain.png";
-    }
-
-    // var icon = document.querySelector(".icon");
-    // icon.src = "http://openweathermap.org/img/w/" + `${weather.icon}`;
-    //console.log(weather[0].icon)
-
-
+    console.log(weather.coord.lon)
+    var lon = weather.coord.lon
+    console.log(lon)
+    var lat = weather.coord.lat
+    console.log(lat)
+    uvFetch(lon, lat)
 
 }
+
+var uvFetch = function (lat, lon) {
+    fetch(`${api2.base}uvi?lat=${lat}&lon=${lon}&APPID=${api2.key}`)
+        .then((uvi) => {
+            return uvi.json();
+        })
+        .then(uvDisplay);
+}
+
+function uvDisplay(uvi) {
+    console.log(uvi.value);
+
+    var uvclass = document.querySelector(".uv-favorable")
+    if (uvi.value > 3) {
+        uvclass.classList.add('favorable')
+    }
+
+    if (uvi.value <= 3 <= 7) {
+        uvclass.classList.add('moderate')
+    }
+
+    if (uvi.value > 7) {
+        uvclass.classList.add('severe')
+    }
+    var uviSpan = document.querySelector(".uv-favorable");
+    uviSpan.innerHTML = `${uvi.value}`;
+}
+
+
+
+var formSubmitHandler = function (event) {
+    event.preventDefault();
+    // get value from input element
+    var city = cityInputEl.value.trim();
+
+    if (city) {
+        getWeather(city);
+        cityInputEl.value = "";
+    } else {
+        alert("Please enter a city.");
+    }
+    console.log(event);
+};
+
+
+cityFormEl.addEventListener("submit", formSubmitHandler);
+
+
+
+
+
+// weather.description = `${ weather[0].description } `
+// console.log(weather.description)
+
+
+
+
+// var icon = document.querySelector(".icon");
+// icon.src = "http://openweathermap.org/img/w/" + `${ weather.icon } `;
+//console.log(weather[0].icon)
+
+
+
+
 
 // Finally tack on the prefix.
 
@@ -116,7 +167,7 @@ function displayResults(weather) {
 
 
 
-https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+//https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 // var icon = document.querySelector(".icon");
 // var gifImg = document.createElement("img");
 // gifImg.setAttribute("src", data.weather.icon);
@@ -161,23 +212,19 @@ https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={par
 
 //Save City data to local storage and make clickable that they show up again in the middle
 
+    // if (weather.description.includes("rain")) {
+    //     icon.src = "https://img.icons8.com/color/48/000000/snow.png";
+    // }
+    // if (`${weather.Array(1).id} `.includes("sun")) {
+    //     icon.src = "https://img.icons8.com/color/48/000000/sun.png";
+    // }
+    // if (`${weather.id} `.includes("partly cloudy")) {
+    //     icon.src = "https://img.icons8.com/color/48/000000/partly-cloudy-rain.png";
+    // }
+    // if (`${weather.id} `.includes("rain")) {
+    //     icon.src = "https://img.icons8.com/color/48/000000/rain.png";
+    // }
 
-var formSubmitHandler = function (event) {
-    event.preventDefault();
-    // get value from input element
-    var city = cityInputEl.value.trim();
-
-    if (city) {
-        getWeather(city);
-        cityInputEl.value = "";
-    } else {
-        alert("Please enter a city.");
-    }
-    console.log(event);
-};
-
-
-cityFormEl.addEventListener("submit", formSubmitHandler);
 
 
 

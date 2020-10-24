@@ -1,17 +1,17 @@
-.uv-severe {
+.severe {
     background-color: red;
     padding: 5px;
     color: white;
 }
 
-.uv-moderate {
+.moderate {
     background-color: orange;
     padding: 5px;
     color: white;
 }
 
-.uv-favorable {
-    background-color: lightblue;
+.favorable {
+    background-color:green;
     padding: 5px;
     color: white;
 }
