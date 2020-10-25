@@ -1,7 +1,14 @@
 # Weather Dashboard
 
 ## Purpose
-This is a weather app implementing the Open Weather Map API using the Fetch method.  Since the API key is supposed to be secret and not shared, I created a secret js file and linked it to my project and placed the secret file name in to my gitignore file.
+This is a weather app implementing the Open Weather Map API using the Fetch method.  
+
+In order to view this project in its functional state, you must clone or download it and use your own API key.
+
+I created a secret.js file and linked it to my project and placed that name in to my gitignore file.  I used the following syntax in my secret.js: var apiKey = "put your key # here ".
+
+Get your free API for Open Weather Map:
+[Open Weather Map](https://openweathermap.org/api)
 
 The app opens with Las Vegas weather loaded, but will fill in whatever city you choose from your search.  The fields include today's weather plus a forecast of the next five days.
 
@@ -26,6 +33,7 @@ The design is 100% created by scratch using Bootstrap and some CSS.
 # Website
 
 [Github Pages](https://webprinc3ss.github.io/weather-dashboard/index.html)
+(You really need to download this code and run it locally to view the working site.)
 <br>
 
 # Media
