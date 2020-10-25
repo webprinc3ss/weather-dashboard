@@ -204,11 +204,33 @@ function uvDisplay(uvi) {
 
 var getForecast = function (city) {
     fetch(`${api.base}forecast?q=${city}&units=imperial&APPID=${api.key}`)
-        .then((forecast) => {
-            return forecast.json();
+        .then(function (forecast) {
+            // request was successful
+            if (forecast.ok) {
+                return forecast.json()
+                    .then(displayForecast);
+            } else {
+                document.querySelector(".error").textContent = "Error: " + weather.statusText;
+                document.querySelector(".status").style = "display: block";
+                setTimeout(function () {
+                    document.querySelector(".status").style = "display: none";
+                }, 2000);
+            }
         })
-        .then(displayForecast);
+        .catch(function (error) {
+
+            document.querySelector(".error").textContent = "Unable to connect to Open Weather Map";
+            document.querySelector(".status").style = "display: block";
+            setTimeout(function () {
+                document.querySelector(".status").style = "display: none";
+            }, 2000);
+
+        });
 }
+
+
+
+
 
 function displayForecast(forecast) {
 
