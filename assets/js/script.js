@@ -79,7 +79,7 @@ function displayVegas(weather) {
     temp.innerHTML = `Temperature: ${Math.round(weather.main.temp)} <span>°f<span>`;
 
     var humidity = document.querySelector(".humidity");
-    humidity.innerHTML = `Humidty: ${weather.main.humidity} <span>%</span>`;
+    humidity.innerHTML = `Humidty: ${weather.main.humidity}<span>%</span>`;
 
     var windspeed = document.querySelector(".windspeed");
     windspeed.innerHTML = `Windspeed: ${weather.wind.speed} <span>m.p.h.</span>`;
@@ -135,7 +135,7 @@ function displayResults(weather) {
     temp.innerHTML = `Temperature: ${Math.round(weather.main.temp)} <span>°f<span>`;
 
     var humidity = document.querySelector(".humidity");
-    humidity.innerHTML = `Humidty: ${weather.main.humidity} <span>%</span>`;
+    humidity.innerHTML = `Humidty: ${weather.main.humidity}<span>%</span>`;
 
     var windspeed = document.querySelector(".windspeed");
     windspeed.innerHTML = `Windspeed: ${weather.wind.speed} <span>m.p.h.</span>`;
