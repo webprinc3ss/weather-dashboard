@@ -40,16 +40,6 @@ const api = {
     base: "https://api.openweathermap.org/data/2.5/",
 };
 
-const api2 = {
-    key: apiKey,
-    base: "https://api.openweathermap.org/data/2.5/",
-};
-
-const api3 = {
-    key: apiKey,
-    base: "https://api.openweathermap.org/data/2.5/",
-};
-
 var weatherHere = function () {
     fetch(`${api.base}weather?q=Las&Vegas&units=imperial&APPID=${api.key}`)
         .then(function (weather) {
@@ -163,7 +153,7 @@ function displayResults(weather) {
 }
 
 var uvFetch = function (lat, lon) {
-    fetch(`${api2.base}uvi?lat=${lat}&lon=${lon}&APPID=${api2.key}`)
+    fetch(`${api.base}uvi?lat=${lat}&lon=${lon}&APPID=${api.key}`)
         .then(function (uvi) {
             console.log(uvi)
             // request was successful
@@ -213,7 +203,7 @@ function uvDisplay(uvi) {
 }
 
 var getForecast = function (city) {
-    fetch(`${api3.base}forecast?q=${city}&units=imperial&APPID=${api3.key}`)
+    fetch(`${api.base}forecast?q=${city}&units=imperial&APPID=${api.key}`)
         .then((forecast) => {
             return forecast.json();
         })
