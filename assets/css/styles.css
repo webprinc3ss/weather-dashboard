@@ -32,34 +32,11 @@ hr {
     width: 50%;
 }
 
-.sun {
-    display: inline;
-}
-
-.sun-rain {
-    display: none;
-}
-
-.cloudy {
-    display: none;
-}
-
-.rain {
-    display: none;
-}
-
-.storm {
-    display: none;
-}
-
-.part-cloud {
-    display: none;
-}
-
-.snow {
-    display: none;
-}
-
-.hail {
+.status {
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    background-color: yellow;
+    padding: 2px;
     display: none;
 }

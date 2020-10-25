@@ -1,114 +1,292 @@
+console.log(apiKey)
+
 var cityFormEl = document.querySelector("#cityForm");
 var cityInputEl = document.querySelector("#city");
+var ul = document.querySelector('ul');
+var citiesArray = localStorage.getItem('cities') ? JSON.parse(localStorage.getItem('cities')) : [];
 
-//List searches keep to five
-
-//Search Code
-var cityInput = document.getElementById("city");
-var cityForm = document.getElementById("cityForm");
-
-var local1 = document.getElementById("local1");
-var local2 = document.getElementById("local2");
-var local3 = document.getElementById("local3");
-var local4 = document.getElementById("local4");
-var local5 = document.getElementById("local5");
-
-var savedLocations = ["", "", "", "", ""];
-
-cityForm.addEventListener("submit", function (event) {
-    for (let i = 0; i < savedLocations.length; i++) {
-        if (savedLocations[i] == "") {
-            savedLocations[i] = cityInput.value;
-        } else {
-            savedLocations[4] = savedLocations[3];
-            savedLocations[3] = savedLocations[2];
-            savedLocations[2] = savedLocations[1];
-            savedLocations[1] = savedLocations[0];
-            savedLocations[0] = cityInput.value;
-            break;
+var liMaker = (text) => {
+    for (var index = ul.childNodes.length - 1; index >= 0; index--) {
+        if (text === ul.childNodes[index].textContent) {
+            ul.removeChild(ul.childNodes[index])
         }
     }
+    var li = document.createElement('li');
+    li.textContent = text;
+    li.classList = "list-group-item"
+    ul.insertBefore(li, ul.childNodes[0]);
+    while (ul.childNodes.length > 7) {
+        ul.removeChild(ul.lastChild)
+    }
 
-    local1.innerHTML = `<a href="">${savedLocations[0]}</a>`;
-    local2.innerHTML = `<a href="">${savedLocations[1]}</a>`;
-    local3.innerHTML = `<a href="">${savedLocations[2]}</a>`;
-    local4.innerHTML = `<a href="">${savedLocations[3]}</a>`;
-    local5.innerHTML = `<a href="">${savedLocations[4]}</a>`;
+    li.addEventListener("click", function () {
+        console.log(text)
+        getWeather(text)
+        getForecast(text)
+        liMaker(text)
+        citiesArray = []
 
-    event.preventDefault();
-});
+        for (var index = 0; index < ul.childNodes.length; index++) {
+            citiesArray[index] = ul.childNodes[index].textContent
+        }
+        citiesArray.reverse()
+        console.log(citiesArray)
+        localStorage.setItem('cities', JSON.stringify(citiesArray));
+    })
+}
 
+const api = {
+    key: apiKey,
+    base: "https://api.openweathermap.org/data/2.5/",
+};
 
+const api2 = {
+    key: apiKey,
+    base: "https://api.openweathermap.org/data/2.5/",
+};
 
+const api3 = {
+    key: apiKey,
+    base: "https://api.openweathermap.org/data/2.5/",
+};
 
-// Search for city
-//results appear in the main panel
-var getWeather = function (city) {
-    // format the github api url
-    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=ec337b6ddcef697761a71f0466d910b3";
-    //test api https://api.openweathermap.org/data/2.5/weather?q=Tarzana&units=imperial&appid=ec337b6ddcef697761a71f0466d910b3
-    // make a request to the url
-    fetch(apiUrl)
-        .then(function (response) {
+var weatherHere = function () {
+    fetch(`${api.base}weather?q=Las&Vegas&units=imperial&APPID=${api.key}`)
+        .then(function (weather) {
             // request was successful
-            if (response.ok) {
-                response.json().then(function (data) {
-
-                    if (city === 0) {
-                        error.textContent = "No city found.";
-                        return;
-                    }
-
-                    // var data = response
-                    // var myArray = Object.values(data);
-
-                    console.log("data is: " + response.value);
-                    //Clear container from old
-                    //var container = document.querySelector(".card-body")
-                    // container.text = "";
-
-
-                    //Fill in weather for today (top of main section)
-                    console.log(data.name.value);
-
-                    var cityName = document.getElementById("cityName");
-                    cityName.innerHTML = data.name.value
-                    console.log(data.name.value);
-
-                    var date = document.querySelector(".cityName");
-                    date.innerHTML = moment().format('l');
-
-                    var icon = document.querySelector(".icon");
-                    var gifImg = document.createElement("img");
-                    gifImg.setAttribute("src", data.weather.icon);
-                    icon.appendChild(gifImg)
-
-
-                    // icon.innerHTML = data.weather.icon.value
-
-                    var temp = document.querySelector(".temp");
-                    temp.innerHTML = data.main.temp.value
-
-                    var humidity = document.querySelector(".humidity");
-                    humidity.innerHTML = data.humidity.value
-
-                    var windspeed = document.querySelector(".windspeed");
-                    windspeed.innerHTML = data.speed.value
-
-
-                });
+            if (weather.ok) {
+                return weather.json()
+                    .then(displayVegas);
             } else {
-                alert("Error: " + response.statusText);
+                document.querySelector(".error").textContent = "Error: " + weather.statusText
+                document.querySelector(".status").style = "display: block";
+                setTimeout(function () {
+                    document.querySelector(".status").style = "display: none";
+                }, 2000);
+
             }
         })
         .catch(function (error) {
-            // Notice this `.catch()` getting chained onto the end of the `.then()` method
-            alert("Unable to connect to Open Weather");
+
+            document.querySelector(".error").textContent = "Unable to connect to Open Weather Map"
+            document.querySelector(".status").style = "display: block";
+            setTimeout(function () {
+                document.querySelector(".status").style = "display: none";
+            }, 2000);
+
         });
-};
+}
 
-//Save City data to local storage and make clickable that they show up again in the middle
+function displayVegas(weather) {
+    console.log(weather);
+    var cityName = document.querySelector("#cityName");
+    cityName.innerHTML = "Las Vegas";
 
+    var date = document.querySelector(".date");
+    date.innerText = moment().format('l');
+
+    var temp = document.querySelector(".temp");
+    temp.innerHTML = `Temperature: ${Math.round(weather.main.temp)} <span>°f<span>`;
+
+    var humidity = document.querySelector(".humidity");
+    humidity.innerHTML = `Humidty: ${weather.main.humidity} <span>%</span>`;
+
+    var windspeed = document.querySelector(".windspeed");
+    windspeed.innerHTML = `Windspeed: ${weather.wind.speed} <span>m.p.h.</span>`;
+
+    var icon = document.querySelector(".icon");
+    console.log(weather.weather[0].description)
+    console.log(weather.weather[0].icon)
+    var iconData = weather.weather[0].icon
+    icon.src = "http://openweathermap.org/img/w/" + iconData + ".png"
+
+    var lon = weather.coord.lon
+    var lat = weather.coord.lat
+    uvFetch(lon, lat)
+    var city = "Las Vegas"
+    getForecast(city)
+}
+
+var getWeather = function (city) {
+    fetch(`${api.base}weather?q=${city}&units=imperial&APPID=${api.key}`)
+        .then(function (weather) {
+            // request was successful
+            if (weather.ok) {
+                return weather.json()
+                    .then(displayResults);
+            } else {
+                document.querySelector(".error").textContent = "Error: " + weather.statusText;
+                document.querySelector(".status").style = "display: block";
+                setTimeout(function () {
+                    document.querySelector(".status").style = "display: none";
+                }, 2000);
+            }
+        })
+        .catch(function (error) {
+
+            document.querySelector(".error").textContent = "Unable to connect to Open Weather Map";
+            document.querySelector(".status").style = "display: block";
+            setTimeout(function () {
+                document.querySelector(".status").style = "display: none";
+            }, 2000);
+
+        });
+}
+
+function displayResults(weather) {
+    console.log(weather);
+    var cityName = document.querySelector("#cityName");
+    cityName.innerHTML = `${weather.name}`;
+
+    var date = document.querySelector(".date");
+    date.innerText = moment().format('l');
+
+    var temp = document.querySelector(".temp");
+    temp.innerHTML = `Temperature: ${Math.round(weather.main.temp)} <span>°f<span>`;
+
+    var humidity = document.querySelector(".humidity");
+    humidity.innerHTML = `Humidty: ${weather.main.humidity} <span>%</span>`;
+
+    var windspeed = document.querySelector(".windspeed");
+    windspeed.innerHTML = `Windspeed: ${weather.wind.speed} <span>m.p.h.</span>`;
+
+    var icon = document.querySelector(".icon");
+    console.log(weather.weather[0].description)
+    console.log(weather.weather[0].icon)
+    var iconData = weather.weather[0].icon
+    icon.src = "http://openweathermap.org/img/w/" + iconData + ".png"
+
+
+    var lon = weather.coord.lon
+    var lat = weather.coord.lat
+    uvFetch((lat), (lon))
+}
+
+var uvFetch = function (lat, lon) {
+    fetch(`${api2.base}uvi?lat=${lat}&lon=${lon}&APPID=${api2.key}`)
+        .then(function (uvi) {
+            console.log(uvi)
+            // request was successful
+            if (uvi.ok) {
+                return uvi.json()
+                    .then(uvDisplay);
+            } else {
+                document.querySelector(".error").textContent = uvi.statusText;
+                document.querySelector(".status").style = "display: block";
+                setTimeout(function () {
+                    document.querySelector(".status").style = "display: none";
+                }, 2000);
+
+
+            }
+        })
+        .catch(function (error) {
+            document.querySelector(".error").textContent = "Unable to connect to Open Weather Map.";
+            document.querySelector(".status").style = "display: block";
+            setTimeout(function () {
+                document.querySelector(".status").style = "display: none";
+            }, 2000);
+
+        });
+}
+
+function uvDisplay(uvi) {
+    console.log(uvi.value);
+
+    var uvclass = document.querySelector(".uv-favorable")
+    if (uvi.value < 3) {
+        uvclass.classList.add('favorable')
+        uvclass.classList.remove("moderate", "severe")
+    }
+
+    if (uvi.value >= 3 <= 7) {
+        uvclass.classList.add('moderate')
+        uvclass.classList.remove("favorable", "severe")
+    }
+
+    if (uvi.value > 7) {
+        uvclass.classList.add('severe')
+        uvclass.classList.remove("moderate", "favorable")
+    }
+    var uviSpan = document.querySelector(".uv-favorable");
+    uviSpan.innerHTML = uvi.value;
+}
+
+var getForecast = function (city) {
+    fetch(`${api3.base}forecast?q=${city}&units=imperial&APPID=${api3.key}`)
+        .then((forecast) => {
+            return forecast.json();
+        })
+        .then(displayForecast);
+}
+
+function displayForecast(forecast) {
+
+    var date1 = document.querySelector(".date1");
+    date1.innerText = moment().add(1, 'days').format('dddd, MMMM Do')
+
+    var date2 = document.querySelector(".date2");
+    date2.innerText = moment().add(2, 'days').format('dddd, MMMM Do')
+
+    var date3 = document.querySelector(".date3");
+    date3.innerText = moment().add(3, 'days').format('dddd, MMMM Do')
+
+    var date4 = document.querySelector(".date4");
+    date4.innerText = moment().add(4, 'days').format('dddd, MMMM Do')
+
+    var date5 = document.querySelector(".date5");
+    date5.innerText = moment().add(5, 'days').format('dddd, MMMM Do')
+
+    var temp1 = document.querySelector(".temp1");
+    temp1.innerHTML = Math.round(forecast.list[0].main.temp) + "<span>°f<span>"
+
+    var temp2 = document.querySelector(".temp2");
+    temp2.innerHTML = Math.round(forecast.list[1].main.temp) + "<span>°f<span>";
+
+    var temp3 = document.querySelector(".temp3");
+    temp3.innerHTML = Math.round(forecast.list[2].main.temp_min) + "<span>°f<span>"
+
+    var temp4 = document.querySelector(".temp4");
+    temp4.innerHTML = Math.round(forecast.list[3].main.temp) + "<span>°f<span>"
+
+    var temp5 = document.querySelector(".temp5");
+    temp5.innerHTML = Math.round(forecast.list[4].main.temp) + "<span>°f<span>"
+
+    var humidity1 = document.querySelector(".humidity1");
+    humidity1.innerHTML = forecast.list[0].main.humidity;
+
+    var humidity2 = document.querySelector(".humidity2");
+    humidity2.innerHTML = forecast.list[1].main.humidity;
+
+    var humidity3 = document.querySelector(".humidity3");
+    humidity3.innerHTML = forecast.list[2].main.humidity;
+
+    var humidity4 = document.querySelector(".humidity4");
+    humidity4.innerHTML = forecast.list[3].main.humidity;
+
+    var humidity5 = document.querySelector(".humidity5");
+    humidity5.innerHTML = forecast.list[4].main.humidity;
+
+    var icon1 = document.querySelector(".icon1");
+    var iconData1 = forecast.list[0].weather[0].icon
+    icon1.src = "http://openweathermap.org/img/w/" + iconData1 + ".png"
+
+    var icon2 = document.querySelector(".icon2");
+    var iconData2 = forecast.list[1].weather[0].icon
+    icon2.src = "http://openweathermap.org/img/w/" + iconData2 + ".png"
+
+    var icon3 = document.querySelector(".icon3");
+    var iconData3 = forecast.list[2].weather[0].icon
+    icon3.src = "http://openweathermap.org/img/w/" + iconData3 + ".png"
+
+    var icon4 = document.querySelector(".icon4");
+    var iconData4 = forecast.list[3].weather[0].icon
+    icon4.src = "http://openweathermap.org/img/w/" + iconData4 + ".png"
+
+    var icon5 = document.querySelector(".icon5");
+    var iconData5 = forecast.list[4].weather[0].icon
+    icon5.src = "http://openweathermap.org/img/w/" + iconData5 + ".png"
+}
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
@@ -116,66 +294,39 @@ var formSubmitHandler = function (event) {
     var city = cityInputEl.value.trim();
 
     if (city) {
+
+        liMaker(city);
+        citiesArray = []
+
+        for (var index = 0; index < ul.childNodes.length; index++) {
+            citiesArray[index] = ul.childNodes[index].textContent
+        }
+
+        citiesArray.reverse()
+        localStorage.setItem('cities', JSON.stringify(citiesArray));
         getWeather(city);
+        getForecast(city);
         cityInputEl.value = "";
     } else {
-        alert("Please enter a city.");
+        document.querySelector("#status").textContent = "Please enter a city.";
+        document.querySelector(".status").style = "display: block";
+        setTimeout(function () {
+            document.querySelector(".status").style = "display: none";
+        }, 2000);
+
     }
     console.log(event);
 };
 
+citiesArray.forEach(city => {
+    liMaker(city);
+});
 
 cityFormEl.addEventListener("submit", formSubmitHandler);
-
-
-// var displayWeather = function (response) {
-
-//     // var uv = data.current.uvi.value
-//     // console.log(uv);
-//     //class=uv-favorable
-
-
-// };
-
-// var cityFormEl = document.querySelector("#cityForm");
-// var cityInputEl = document.querySelector("#cityName");
-// api.openweathermap.org / data / 2.5 / forecast ? q = "Las_Vegas" & appid="ec337b6ddcef697761a71f0466d910b3"
-
-
-//Test: https://api.openweathermap.org/data/2.5/weather?id=6167865&appid=ec337b6ddcef697761a71f0466d910b3
-
-//https://api.openweathermap.org/data/2.5/weather?q=Tarzana=imperial&appid=ec337b6ddcef697761a71f0466d910b3
-
-//https://api.openweathermap.org/data/2.5/onecall?q=Las_Vegas,NV&appid=6167865&appid=ec337b6ddcef697761a71f0466d910b3
-
-//https://api.openweathermap.org/data/2.5/weather?id=6167865&appid=ec337b6ddcef697761a71f0466d910b3
-
-
-//http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=ec337b6ddcef697761a71f0466d910b3
-
-//http://api.openweathermap.org/data/2.5/uvi/forecast?q=Tarzana&units=imperial&APPID=ec337b6ddcef697761a71f0466d910b3
-
-
-    // var cityName = city
-    // console.log(cityName);
-    // var date = moment().format('l');
-    // console.log(date);
-    // var temp = data.main.temp.value
-    // console.log(temp);
-    // var humidity = data.main.humidity.value
-    // console.log(humidity);
-    // var wind = data.wind.speed.value
-    // console.log(windspeed);
-
-
-    // container.innerHTML = "";
+weatherHere()
 
 
 
 
-    // $("#cityName").append(cityName).innerHTML
-    // $(".date").append(date).innerHTML
-    // $(".temp").append(temp).innerHTML
-    // $(".humidity").append(humidity).innerHTML
-    // $(".windspeed").append(windspeed).innerHTML
-    // $(".uv").append(uv).innerHTML
+
+
