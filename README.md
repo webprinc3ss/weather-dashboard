@@ -1,14 +1,7 @@
 # Weather Dashboard
 
 ## Purpose
-This is a weather app implementing the Open Weather Map API using the Fetch method.  
-
-In order to view this project in its functional state, you must clone or download it and use your own API key.
-
-I created a secret.js file and linked it to my project and placed that name in to my gitignore file.  I used the following syntax in my secret.js: var apiKey = "put your key # here ".
-
-Get your free API for Open Weather Map:
-[Open Weather Map](https://openweathermap.org/api)
+This is a weather app implementing the free Open Weather Map API using the Fetch method.  
 
 The app opens with Las Vegas weather loaded, but will fill in whatever city you choose from your search.  The fields include today's weather plus a forecast of the next five days.
 
@@ -18,9 +11,14 @@ Your search history will be saved in Local Storage and displayed on the left und
 
 The weather icons are provided by the Open Weather Map API.  
 
-The web design is responsive and breakpoints have been set in Bootstrap to be viewable on smaller devices.
+I used a free API key provided by Open Weather Map.
 
-The design is 100% created by scratch using Bootstrap and some CSS.
+Since this is a school project and the key is free, I have uploaded this in a functional state with the API key for grading purposes.
+
+Use your own API key if you do this yourself and consider hiding your API key if you do not want others using it or are using a paid API.
+
+Create a secret.js file and linked it to you project and place that name in your gitignore file.  I used the following syntax in my secret.js: var apiKey = "put your key # here ".
+
 
 # Built With
 - HTML
@@ -28,6 +26,12 @@ The design is 100% created by scratch using Bootstrap and some CSS.
 - CSS
 - JavaScript
 - Open Weather Map API
+
+[Open Weather Map](https://openweathermap.org/api)
+
+The web design is responsive and breakpoints have been set in Bootstrap to be viewable on smaller devices.
+
+The design is 100% created by scratch using Bootstrap and some CSS.
 <br><br>
 
 # Website
@@ -38,7 +42,7 @@ The design is 100% created by scratch using Bootstrap and some CSS.
 
 # Media
 
-![Website](assets/images/weather-dash.png)
+![Screenshot](assets/images/weather-dash.png)
 <br>
 
 # Credit
