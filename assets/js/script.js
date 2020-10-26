@@ -13,7 +13,7 @@ var liMaker = (text) => {
     }
     var li = document.createElement('li');
     li.textContent = text;
-    li.classList = "list-group-item"
+    li.classList = "list-group-item pointer"
     ul.insertBefore(li, ul.childNodes[0]);
     while (ul.childNodes.length > 7) {
         ul.removeChild(ul.lastChild)
