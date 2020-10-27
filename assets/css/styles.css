@@ -1,3 +1,14 @@
+:root {
+    --main-radius: 5px;
+    --main-padding: 5px;
+}
+
+.favorable {
+    background-color:green;
+    padding: 5px;
+    color: white;
+}
+
 .severe {
     background-color: red;
     padding: 5px;
@@ -6,12 +17,6 @@
 
 .moderate {
     background-color: orange;
-    padding: 5px;
-    color: white;
-}
-
-.favorable {
-    background-color:green;
     padding: 5px;
     color: white;
 }

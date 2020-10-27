@@ -184,22 +184,23 @@ function uvDisplay(uvi) {
     console.log(uvi.value);
 
     var uvclass = document.querySelector(".uv-favorable")
-    if (uvi.value < 3) {
+    if (uvi.value <= 3) {
         uvclass.classList.add('favorable')
         uvclass.classList.remove("moderate", "severe")
     }
 
-    if (uvi.value >= 3 <= 7) {
+    if (3 < uvi.value && uvi.value < 7) {
         uvclass.classList.add('moderate')
         uvclass.classList.remove("favorable", "severe")
     }
 
     if (uvi.value > 7) {
         uvclass.classList.add('severe')
-        uvclass.classList.remove("moderate", "favorable")
+        uvclass.classList.remove("favorable", "moderate")
     }
     var uviSpan = document.querySelector(".uv-favorable");
     uviSpan.innerHTML = uvi.value;
+    console.log("Uvi", uvi.value)
 }
 
 var getForecast = function (city) {
