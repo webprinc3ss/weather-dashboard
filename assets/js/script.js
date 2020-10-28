@@ -251,19 +251,19 @@ function displayForecast(forecast) {
     date5.innerText = moment().add(5, 'days').format('dddd, MMMM Do')
 
     var temp1 = document.querySelector(".temp1");
-    temp1.innerHTML = Math.round(forecast.list[0].main.temp) + "<span>°f<span>"
+    temp1.innerHTML = Math.round(forecast.list[0].main.temp) + "<span>°f</span>"
 
     var temp2 = document.querySelector(".temp2");
-    temp2.innerHTML = Math.round(forecast.list[1].main.temp) + "<span>°f<span>";
+    temp2.innerHTML = Math.round(forecast.list[1].main.temp) + "<span>°f</span>";
 
     var temp3 = document.querySelector(".temp3");
-    temp3.innerHTML = Math.round(forecast.list[2].main.temp_min) + "<span>°f<span>"
+    temp3.innerHTML = Math.round(forecast.list[2].main.temp) + "<span>°f</span>"
 
     var temp4 = document.querySelector(".temp4");
-    temp4.innerHTML = Math.round(forecast.list[3].main.temp) + "<span>°f<span>"
+    temp4.innerHTML = Math.round(forecast.list[3].main.temp) + "<span>°f</span>"
 
     var temp5 = document.querySelector(".temp5");
-    temp5.innerHTML = Math.round(forecast.list[4].main.temp) + "<span>°f<span>"
+    temp5.innerHTML = Math.round(forecast.list[4].main.temp) + "<span>°f</span>"
 
     var humidity1 = document.querySelector(".humidity1");
     humidity1.innerHTML = forecast.list[0].main.humidity;
