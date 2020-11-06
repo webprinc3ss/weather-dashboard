@@ -42,7 +42,7 @@ The design is 100% created by scratch using Bootstrap and some CSS.
 
 # Media
 
-![Screenshot](assets/images/weather-dash.png)
+![Screenshot](assets/images/redrock.jpg)
 <br>
 
 # Credit
